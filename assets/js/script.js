@@ -13,27 +13,27 @@ var forecast = document.getElementById("forecast");
 ///geo/1.0/direct?q=London&limit=5&appid={API key}
 //data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
 
-searchBtn.addEventListener("click", searchVal);
+searchBtn.addEventListener("click", searchVal); //<- use parenthesis to pass in parameters.
+
 function searchVal(event) {
+  event.preventDefault();
+
   if (!search.value) {
     return;
+  } else {
+    var searchForm = search.value.trim();
+    fetchCity(searchForm);
   }
-  event.preventDefault();
-  var searchForm = search.value.trim();
-  fetchCity(searchForm);
 }
 
 function fetchCity(searchForm) {
   var apiUrl = `${weatherApiUrl}geo/1.0/direct?q=${searchForm}&limit=5&appid=${apiKey}`;
-  console.log(apiUrl);
   fetch(apiUrl)
     .then(function (res) {
       return res.json();
     })
     .then(function (data) {
       console.log(data[0]);
-      console.log(data[0].name);
-      //savedcity (searchForm)
       fetchWeather(data[0]);
     })
     .catch(function (err) {
